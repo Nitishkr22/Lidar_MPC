@@ -23,9 +23,10 @@ client.connect()
 UNIT= 0x1
 #client.set_slave(UNIT)
 end_point = False
+coll = 0
 
 print("connected")
-
+# brake_counter=0
 def read_angle():
    read1 = client.read_holding_registers(address=1, count=1, unit=UNIT)
    current_angle = read1.registers[0]
@@ -59,7 +60,14 @@ def set_neutral():
  
    
 def remove_brake():
+    R_pwm = client.write_coil(4, True, unit=UNIT) 
+    L_PWM = client.write_coil(3, False, unit=UNIT)
+
+def apply_brake():
     R_pwm = client.write_coil(3, True, unit=UNIT) 
+    L_PWM = client.write_coil(4, False, unit=UNIT)
+    time.sleep(0.7)
+    R_pwm = client.write_coil(3, False, unit=UNIT) 
     L_PWM = client.write_coil(4, False, unit=UNIT)
 
 def accelerate(value):
@@ -72,7 +80,7 @@ def increase_velocity(previous_velocity, velocity):
     #time.sleep(0.25)
     if velocity > previous_velocity:
        new_velocity=previous_velocity+0.2
-       return min(45,new_velocity)
+       return min(41,new_velocity)
     else:
        return velocity
         
@@ -137,14 +145,22 @@ def update_mpc_trajectory(msg):
     global end_point
 
     end_point = msg.wp_end
+def zed_collision(msg):
+    global coll
+    coll = msg.data
 # while 1:
-#     set_forward()
+    # set_forward()
+    # remove_brake()
+    # if(brake_counter<1):
+    #     apply_brake()
+    #     brake_counter=brake_counter+1
 
 if __name__ == '__main__':
     rospy.init_node('angle_reader')
     angle_pub = rospy.Publisher('current_steer', Int32, queue_size=10)
     rospy.Subscriber("/control/steer_angle", Float32Msg, steering_mpc, queue_size=1)
     rospy.Subscriber('/vehicle/mpc_path', mpc_path, update_mpc_trajectory, queue_size=1)
+    rospy.Subscriber('/collision', Float32Msg, zed_collision, queue_size=1)
 
     rate = rospy.Rate(10) 
 
@@ -153,14 +169,13 @@ if __name__ == '__main__':
 
     desired_angle = 0
     prev_vel = 0
+    brake_counter = 0
     while not rospy.is_shutdown():
         feedback_angle = read_angle()
         steer_output = int(math.degrees(steermpc)*10.9)
         Write = client.write_registers(22,2300, unit=UNIT)
         # set_neutral()
         set_forward()
-        # set_reverse()
-        # accelerate(25)
         vel = increase_velocity(prev_vel,35)
         # prev_vel = vel
         # accelerate(int(vel))
@@ -169,19 +184,42 @@ if __name__ == '__main__':
         if abs(steer_output)<30:
            upvel = vel
         else:
-            if vel>26:
-                upvel = 30
+            if vel>27:
+                upvel = 28
             else:
                 upvel = vel
-        accelerate(int(upvel))
-        prev_vel = upvel
+        
     #   steer_input = pid.update(desired_angle, feedback_angle)
         print(f"Steer Output: {steer_output}")
         print("sssssssss: ",end_point)
+        print("ccccccccc: ",coll)
+        if (coll==2):
+            accelerate(int(0))
+            if(brake_counter<1):
+                apply_brake()
+                brake_counter=brake_counter+1
+            # time.sleep(2.0)
+            upvel = 0
+            # set_neutral()
+            # apply_brake()
+        elif (coll==1):
+            if vel>25:
+                upvel = 26
+            else:
+                upvel = vel
+            # accelerate(int(upvel))
+            
+        else:
+            brake_counter = 0
+            # set_forward()
+            remove_brake()
+            # set_forward()
+        accelerate(int(upvel))
+        prev_vel = upvel
         if (end_point==True):
             accelerate(int(0))
-            set_neutral()
-
+            # set_neutral()
+        print(brake_counter)
 
         set_steer(int(steer_output/2.8))
         rate.sleep()

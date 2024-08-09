@@ -29,7 +29,7 @@ first_valid_data_received = False
 first_row_written = False
 
 # Initialize CSV file
-csv_file = "../paths/H4test.csv"
+csv_file = "../paths/zedtest.csv"
 headers = ["a", "psi", "df", "lon", "lat", "mode", "v", "y", "x", "t"]
 
 with open(csv_file, mode='w', newline='') as file:
@@ -116,7 +116,7 @@ def ndt_pose_callback(data):
 
 rospy.Subscriber('/ndt_pose', PoseStamped, ndt_pose_callback)
 # rospy.Subscriber('/livox/imu', Imu, _parse_imu_data, queue_size=1)
-rospy.Subscriber('/gps/imu', Imu, _parse_imu_data, queue_size=1)
+rospy.Subscriber('/zed/imu', Imu, _parse_imu_data, queue_size=1)
 
 rospy.Subscriber('/calculated_velocity', Vector3,_parse_gps_vel, queue_size=10)
 rospy.Subscriber('/steering_angle', Int32, _parse_steering_angle, queue_size=1)
@@ -127,35 +127,35 @@ with open(csv_file, mode='a', newline='') as file:
     writer = csv.DictWriter(file, fieldnames=headers)
     
     while not rospy.is_shutdown():
-        # if first_valid_data_received:
-        current_time = time.time()
-        data_row = {
-            "a": long_accel,
-            "psi": psi,
-            "df": df,
-            "lon": lon,
-            "lat": lat,
-            "mode": "Real" if not first_row_written else "",  # Set "Real" for the first row
-            "v": v,
-            "y": y,
-            "x": x,
-            "t": current_time
-        }
-        
-        writer.writerow(data_row)
-        first_row_written = True  # Mark the first row as written
-        
-        print("lat: ", lat)
-        print("lon: ", lon)
-        print("psi: ", psi)
-        print("v: ", v)
-        print("v_long: ", v_long)
-        print("v_lat: ", v_lat)
-        print("steer", df)
-        print("X: ",x)
-        print("Y: ",y)
-        print("---------------------------------------------------------------------------------------------")
-        
+        if first_valid_data_received:
+            current_time = time.time()
+            data_row = {
+                "a": long_accel,
+                "psi": psi,
+                "df": df,
+                "lon": lon,
+                "lat": lat,
+                "mode": "Real" if not first_row_written else "",  # Set "Real" for the first row
+                "v": v,
+                "y": y,
+                "x": x,
+                "t": current_time
+            }
+            
+            writer.writerow(data_row)
+            first_row_written = True  # Mark the first row as written
+            
+            print("lat: ", lat)
+            print("lon: ", lon)
+            print("psi: ", psi)
+            print("v: ", v)
+            print("v_long: ", v_long)
+            print("v_lat: ", v_lat)
+            print("steer", df)
+            print("X: ",x)
+            print("Y: ",y)
+            print("---------------------------------------------------------------------------------------------")
+            
         rospy.sleep(0.1)  # Adjust the sleep time as needed
 
 # Convert CSV to MAT file and create YAML file after ROS shutdown

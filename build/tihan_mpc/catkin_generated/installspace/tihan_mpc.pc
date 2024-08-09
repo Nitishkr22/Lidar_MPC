@@ -1,4 +1,4 @@
-prefix=/home/nitish/Documents/Lidar_MPC/install
+prefix=/home/tihan/Documents/Lidar_MPC/install
 
 Name: tihan_mpc
 Description: Description of tihan_mpc

@@ -67,14 +67,14 @@ set(tihan_mpc_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
-  set(tihan_mpc_SOURCE_PREFIX /home/nitish/Documents/Lidar_MPC/src/tihan_mpc)
-  set(tihan_mpc_DEVEL_PREFIX /home/nitish/Documents/Lidar_MPC/devel)
+  set(tihan_mpc_SOURCE_PREFIX /home/tihan/Documents/Lidar_MPC/src/tihan_mpc)
+  set(tihan_mpc_DEVEL_PREFIX /home/tihan/Documents/Lidar_MPC/devel)
   set(tihan_mpc_INSTALL_PREFIX "")
   set(tihan_mpc_PREFIX ${tihan_mpc_DEVEL_PREFIX})
 else()
   set(tihan_mpc_SOURCE_PREFIX "")
   set(tihan_mpc_DEVEL_PREFIX "")
-  set(tihan_mpc_INSTALL_PREFIX /home/nitish/Documents/Lidar_MPC/install)
+  set(tihan_mpc_INSTALL_PREFIX /home/tihan/Documents/Lidar_MPC/install)
   set(tihan_mpc_PREFIX ${tihan_mpc_INSTALL_PREFIX})
 endif()
 
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/nitish/Documents/Lidar_MPC/install/lib;/home/nitish/Documents/MPC_NK/devel/lib;/opt/ros/noetic/lib)
+    foreach(path /home/tihan/Documents/Lidar_MPC/install/lib;/opt/ros/noetic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

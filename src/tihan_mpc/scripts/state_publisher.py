@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import rospy
 import math as m
 import numpy as np
@@ -6,7 +6,7 @@ from tf.transformations import euler_from_quaternion
 from sensor_msgs.msg import NavSatFix
 from geometry_msgs.msg import TwistWithCovarianceStamped
 from sensor_msgs.msg import Imu
-from genesis_msgs.msg import SteeringReport
+# from genesis_msgs.msg import SteeringReport
 from tihan_mpc.msg import state_est
 from novatel_oem7_msgs.msg import INSPVA
 from std_msgs.msg import Int32
@@ -70,11 +70,9 @@ class StatePublisher(object):
 		
 		state_pub = rospy.Publisher('state_est', state_est, queue_size=1)
 
-	
-		# rospy.Subscriber('/steering_angle', Float32Msg, _parse_steering_angle, queue_size=1)
 		rospy.Subscriber('/ndt_pose', PoseStamped, self.ndt_pose_callback)
 		# rospy.Subscriber('/livox/imu', Imu, self._parse_imu_data, queue_size=1)
-		rospy.Subscriber('/gps/imu', Imu, self._parse_imu_data, queue_size=1)
+		rospy.Subscriber('/zed/imu', Imu, self._parse_imu_data, queue_size=1)
 		rospy.Subscriber('/calculated_velocity', Vector3,self._parse_gps_vel, queue_size=10)
 		rospy.Subscriber('/steering_angle', Int32, self._parse_steering_angle, queue_size=1)
 		######################

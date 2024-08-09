@@ -1,8 +1,8 @@
-# Install script for directory: /home/nitish/Documents/Lidar_MPC/src
+# Install script for directory: /home/tihan/Documents/Lidar_MPC/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/nitish/Documents/Lidar_MPC/install")
+  set(CMAKE_INSTALL_PREFIX "/home/tihan/Documents/Lidar_MPC/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -37,12 +37,7 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
   set(CMAKE_CROSSCOMPILING "FALSE")
 endif()
 
-# Set default install directory permissions.
-if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "/usr/bin/objdump")
-endif()
-
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   
       if (NOT EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}")
         file(MAKE_DIRECTORY "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}")
@@ -52,91 +47,91 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
       endif()
 endif()
 
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/nitish/Documents/Lidar_MPC/install/_setup_util.py")
+   "/home/tihan/Documents/Lidar_MPC/install/_setup_util.py")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-  file(INSTALL DESTINATION "/home/nitish/Documents/Lidar_MPC/install" TYPE PROGRAM FILES "/home/nitish/Documents/Lidar_MPC/build/catkin_generated/installspace/_setup_util.py")
+file(INSTALL DESTINATION "/home/tihan/Documents/Lidar_MPC/install" TYPE PROGRAM FILES "/home/tihan/Documents/Lidar_MPC/build/catkin_generated/installspace/_setup_util.py")
 endif()
 
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/nitish/Documents/Lidar_MPC/install/env.sh")
+   "/home/tihan/Documents/Lidar_MPC/install/env.sh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-  file(INSTALL DESTINATION "/home/nitish/Documents/Lidar_MPC/install" TYPE PROGRAM FILES "/home/nitish/Documents/Lidar_MPC/build/catkin_generated/installspace/env.sh")
+file(INSTALL DESTINATION "/home/tihan/Documents/Lidar_MPC/install" TYPE PROGRAM FILES "/home/tihan/Documents/Lidar_MPC/build/catkin_generated/installspace/env.sh")
 endif()
 
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/nitish/Documents/Lidar_MPC/install/setup.bash;/home/nitish/Documents/Lidar_MPC/install/local_setup.bash")
+   "/home/tihan/Documents/Lidar_MPC/install/setup.bash;/home/tihan/Documents/Lidar_MPC/install/local_setup.bash")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-  file(INSTALL DESTINATION "/home/nitish/Documents/Lidar_MPC/install" TYPE FILE FILES
-    "/home/nitish/Documents/Lidar_MPC/build/catkin_generated/installspace/setup.bash"
-    "/home/nitish/Documents/Lidar_MPC/build/catkin_generated/installspace/local_setup.bash"
+file(INSTALL DESTINATION "/home/tihan/Documents/Lidar_MPC/install" TYPE FILE FILES
+    "/home/tihan/Documents/Lidar_MPC/build/catkin_generated/installspace/setup.bash"
+    "/home/tihan/Documents/Lidar_MPC/build/catkin_generated/installspace/local_setup.bash"
     )
 endif()
 
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/nitish/Documents/Lidar_MPC/install/setup.sh;/home/nitish/Documents/Lidar_MPC/install/local_setup.sh")
+   "/home/tihan/Documents/Lidar_MPC/install/setup.sh;/home/tihan/Documents/Lidar_MPC/install/local_setup.sh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-  file(INSTALL DESTINATION "/home/nitish/Documents/Lidar_MPC/install" TYPE FILE FILES
-    "/home/nitish/Documents/Lidar_MPC/build/catkin_generated/installspace/setup.sh"
-    "/home/nitish/Documents/Lidar_MPC/build/catkin_generated/installspace/local_setup.sh"
+file(INSTALL DESTINATION "/home/tihan/Documents/Lidar_MPC/install" TYPE FILE FILES
+    "/home/tihan/Documents/Lidar_MPC/build/catkin_generated/installspace/setup.sh"
+    "/home/tihan/Documents/Lidar_MPC/build/catkin_generated/installspace/local_setup.sh"
     )
 endif()
 
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/nitish/Documents/Lidar_MPC/install/setup.zsh;/home/nitish/Documents/Lidar_MPC/install/local_setup.zsh")
+   "/home/tihan/Documents/Lidar_MPC/install/setup.zsh;/home/tihan/Documents/Lidar_MPC/install/local_setup.zsh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-  file(INSTALL DESTINATION "/home/nitish/Documents/Lidar_MPC/install" TYPE FILE FILES
-    "/home/nitish/Documents/Lidar_MPC/build/catkin_generated/installspace/setup.zsh"
-    "/home/nitish/Documents/Lidar_MPC/build/catkin_generated/installspace/local_setup.zsh"
+file(INSTALL DESTINATION "/home/tihan/Documents/Lidar_MPC/install" TYPE FILE FILES
+    "/home/tihan/Documents/Lidar_MPC/build/catkin_generated/installspace/setup.zsh"
+    "/home/tihan/Documents/Lidar_MPC/build/catkin_generated/installspace/local_setup.zsh"
     )
 endif()
 
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/nitish/Documents/Lidar_MPC/install/.rosinstall")
+   "/home/tihan/Documents/Lidar_MPC/install/.rosinstall")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-  file(INSTALL DESTINATION "/home/nitish/Documents/Lidar_MPC/install" TYPE FILE FILES "/home/nitish/Documents/Lidar_MPC/build/catkin_generated/installspace/.rosinstall")
+file(INSTALL DESTINATION "/home/tihan/Documents/Lidar_MPC/install" TYPE FILE FILES "/home/tihan/Documents/Lidar_MPC/build/catkin_generated/installspace/.rosinstall")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/nitish/Documents/Lidar_MPC/build/gtest/cmake_install.cmake")
-  include("/home/nitish/Documents/Lidar_MPC/build/tihan_mpc/cmake_install.cmake")
+  include("/home/tihan/Documents/Lidar_MPC/build/gtest/cmake_install.cmake")
+  include("/home/tihan/Documents/Lidar_MPC/build/tihan_mpc/cmake_install.cmake")
 
 endif()
 
@@ -148,5 +143,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/nitish/Documents/Lidar_MPC/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/tihan/Documents/Lidar_MPC/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

@@ -13,7 +13,7 @@
   <!-- Set track_using_time to True to allow for time-varying velocity. -->
   <!-- Set track_using_time to False to use target_vel (m/s) instead. -->
   <param name="vehicle/track_using_time" type="bool" value="False" />
-  <param name="vehicle/target_vel" type="double" value="3.4" />
+  <param name="vehicle/target_vel" type="double" value="6" />
 
   <!-- Waypoints CSV to specify path. -->
   <param name="vehicle/mat_waypoints" type="str" value="$(find tihan_mpc)/paths/acs63.mat"/>
