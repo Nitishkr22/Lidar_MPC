@@ -3,7 +3,7 @@
 
 # Relative path conversion top directories.
 set(CMAKE_RELATIVE_PATH_TOP_SOURCE "/usr/src/googletest")
-set(CMAKE_RELATIVE_PATH_TOP_BINARY "/home/tihan/Documents/Lidar_MPC/build")
+set(CMAKE_RELATIVE_PATH_TOP_BINARY "/home/navtech/Documents/Lidar_MPC/build")
 
 # Force unix paths in dependencies.
 set(CMAKE_FORCE_UNIX_PATHS 1)

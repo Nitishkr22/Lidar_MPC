@@ -53,7 +53,7 @@ sys.path.append(scripts_dir)
 # TODO: We can make some of these things rosparams in the future, like N and DT.
 if controller_choice == 'kinematic_mpc':
 	from controllers.kinematic_mpc import KinMPCPathFollower as MPC
-	# MPC_PARAMS = {'N' : 10, 'DT' : 0.2, 'Q' : [1., 1., 10., 0.0], 'R' : [10., 100.]}
+	# MPC_PARAMS = {'N' : 10, 'DT' : 0.2, 'Q' : [1., 1., 1000., 20.0], 'R' : [10., 100.]}
 	MPC_PARAMS = {'N' : 10, 'DT' : 0.4, 'Q' : [300., 300., 100., 10.], 'R' : [10., 2000.]}  # Q = [x, y, psi, v], R= [u_{acc, -1}, u_{df, -1}]
 	# MPC_PARAMS = {'N' : 10, 'DT' : 0.2, 'Q' : [2000., 2000., 40000., 2000.], 'R' : [20., 2000.]}  # Q = [x, y, psi, v], R= [u_{acc, -1}, u_{df, -1}]
 

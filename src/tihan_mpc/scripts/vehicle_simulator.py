@@ -79,11 +79,11 @@ class VehicleSimulator():
 		# m  = 2303.1   			# kg 	(vehicle mass)
 		m = 800
 		#Iz  = 5520.1			# kg*m2 (vehicle inertia)
-		Iz = 3000
+		Iz = 3000  # moment of Inertia of vehicle
 		# C_alpha_f = 7.6419e4*2  # N/rad	(front axle cornering stiffness) # 200k
-		C_alpha_f = 38000
+		C_alpha_f = 38000    #front axle cornering stiffness
 		# C_alpha_r = 13.4851e4*2	# N/rad	(rear axle cornering stiffness)	 # 250k
-		C_alpha_r = 66000
+		C_alpha_r = 66000   # rear axle cornering stiffness
 
 		deltaT = self.dt_model/disc_steps
 		self._update_low_level_control(self.dt_model)

@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/tihan/Documents/Lidar_MPC/devel/share/gennodejs/ros/tihan_mpc/msg/mpc_path.js"
-  "/home/tihan/Documents/Lidar_MPC/devel/share/gennodejs/ros/tihan_mpc/msg/state_est.js"
+  "/home/navtech/Documents/Lidar_MPC/devel/share/gennodejs/ros/tihan_mpc/msg/mpc_path.js"
+  "/home/navtech/Documents/Lidar_MPC/devel/share/gennodejs/ros/tihan_mpc/msg/state_est.js"
   "CMakeFiles/tihan_mpc_generate_messages_nodejs"
 )
 

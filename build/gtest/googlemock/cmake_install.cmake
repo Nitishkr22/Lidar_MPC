@@ -2,7 +2,7 @@
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/tihan/Documents/Lidar_MPC/install")
+  set(CMAKE_INSTALL_PREFIX "/home/navtech/Documents/Lidar_MPC/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -39,7 +39,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/tihan/Documents/Lidar_MPC/build/gtest/googletest/cmake_install.cmake")
+  include("/home/navtech/Documents/Lidar_MPC/build/gtest/googletest/cmake_install.cmake")
 
 endif()
 

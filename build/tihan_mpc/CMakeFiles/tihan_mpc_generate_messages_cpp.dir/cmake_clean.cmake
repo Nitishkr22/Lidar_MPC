@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/tihan/Documents/Lidar_MPC/devel/include/tihan_mpc/mpc_path.h"
-  "/home/tihan/Documents/Lidar_MPC/devel/include/tihan_mpc/state_est.h"
+  "/home/navtech/Documents/Lidar_MPC/devel/include/tihan_mpc/mpc_path.h"
+  "/home/navtech/Documents/Lidar_MPC/devel/include/tihan_mpc/state_est.h"
   "CMakeFiles/tihan_mpc_generate_messages_cpp"
 )
 

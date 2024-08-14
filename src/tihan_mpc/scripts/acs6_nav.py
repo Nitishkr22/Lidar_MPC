@@ -13,6 +13,8 @@ import rospy
 from std_msgs.msg import Int32
 from std_msgs.msg import Float32 as Float32Msg
 from tihan_mpc.msg import mpc_path
+import math as m
+from geometry_msgs.msg import Quaternion, Vector3
 # import pid
 
 host = '192.168.140.5'  
@@ -74,8 +76,8 @@ def accelerate(value):
     #value1=value*10
     Write2 = client.write_registers(500,value, unit=UNIT)
     
-global previous_velocity
-previous_velocity=0
+# global previous_velocity
+# previous_velocity=0
 def increase_velocity(previous_velocity, velocity):
     #time.sleep(0.25)
     if velocity > previous_velocity:
@@ -83,59 +85,16 @@ def increase_velocity(previous_velocity, velocity):
        return min(41,new_velocity)
     else:
        return velocity
-        
-def exit():
-   #  accelerate(0)
-   #  set_neutral()
-    set_steer(0)
-    time.sleep(0.1)
-   #  remove_brake()
-
-# class PIDController:
-#     def __init__(self, Kp, Ki, Kd, output_limits=(-134, 134)):
-#         self.Kp = Kp
-#         self.Ki = Ki
-#         self.Kd = Kd
-#         self.output_limits = output_limits
-#         self.integral = 0
-#         self.previous_error = 0
-#         self.feedforward_gain = 134 / 370
     
-#     def update(self, setpoint, feedback):
-#         # Normalize angles from [-370, 370] to [-1, 1]
-#         setpoint_normalized = setpoint / 370
-#         feedback_normalized = feedback / 370
-        
-#         # Calculate error
-#         error = setpoint_normalized - feedback_normalized
-        
-#         # Proportional term
-#         P = self.Kp * error
-        
-#         # Integral term
-#         self.integral += error
-#         I = self.Ki * self.integral
-        
-#         # Derivative term
-#         derivative = error - self.previous_error
-#         D = self.Kd * derivative
-        
-#         # PID output
-#         output = P + I + D
-        
-#         # Feedforward term to directly drive to the setpoint
-#         feedforward = self.feedforward_gain * setpoint
-        
-#         # Combined output
-#         output_combined = output + feedforward
-        
-#         # Save error for next derivative calculation
-#         self.previous_error = error
-        
-#         # Apply output limits
-#         output_combined = max(self.output_limits[0], min(self.output_limits[1], output_combined))
-        
-#         return output_combined
+# def decrease_velocity(previous_velocity, velocity):
+#     #time.sleep(0.25)
+#     if velocity > previous_velocity:
+#        new_velocity=previous_velocity+0.2
+#        return min(41,new_velocity)
+#     else:
+#        return velocity
+
+
 steermpc = 0.0
 def steering_mpc(msg):
     global steermpc
@@ -145,42 +104,57 @@ def update_mpc_trajectory(msg):
     global end_point
 
     end_point = msg.wp_end
+
 def zed_collision(msg):
     global coll
     coll = msg.data
-# while 1:
-    # set_forward()
-    # remove_brake()
-    # if(brake_counter<1):
-    #     apply_brake()
-    #     brake_counter=brake_counter+1
+
+feedback_speed = 0
+def _parse_gps_vel(msg):
+    global feedback_speed
+
+    x_vel = msg.x
+    y_vel = msg.y
+    
+    feedback_speed = m.sqrt(x_vel**2 + y_vel**2) * 3.6
+
+def find_closest_key(dictionary, target_value):
+    # Find the key that corresponds to the closest value in the dictionary
+    closest_key = min(dictionary, key=lambda k: abs(dictionary[k] - target_value))
+    return closest_key
 
 if __name__ == '__main__':
+    # dict_speed dictionary contains key:value pair of accn(voltage_values):velocity(kmph) for the DBW system
+    dict_speed = {10:0,11:0,12:1,13:1,14:2,15:2,16:3,17:3,18:4,19:4,20:5,21:5,22:6,
+            23:6,24:7,25:7,26:8,27:8,28:9,29:10,30:11,31:12,32:12,33:13,34:14,35:15,36:16,37:17,38:18,39:19,40:20,41:20,42:21,43:22,44:23,45:24}
     rospy.init_node('angle_reader')
     angle_pub = rospy.Publisher('current_steer', Int32, queue_size=10)
     rospy.Subscriber("/control/steer_angle", Float32Msg, steering_mpc, queue_size=1)
     rospy.Subscriber('/vehicle/mpc_path', mpc_path, update_mpc_trajectory, queue_size=1)
     rospy.Subscriber('/collision', Float32Msg, zed_collision, queue_size=1)
+    rospy.Subscriber('/calculated_velocity', Vector3,_parse_gps_vel, queue_size=10)
 
-    rate = rospy.Rate(10) 
-
-   # Tune PID
-#    pid = PIDController(Kp=1.5574, Ki=2.1085, Kd=1.0655)
-
+    rate = rospy.Rate(10)
+    keys_with_value = find_closest_key(dict_speed, 24)
     desired_angle = 0
     prev_vel = 0
     brake_counter = 0
     while not rospy.is_shutdown():
+        print(feedback_speed)
+        target_vel = 15 #kmph
+        acc_value = find_closest_key(dict_speed, target_vel)
+        initial_vel = find_closest_key(dict_speed, int(feedback_speed))
         feedback_angle = read_angle()
-        steer_output = int(math.degrees(steermpc)*10.9)
+        steer_output = int(math.degrees(steermpc)*10.57)
         Write = client.write_registers(22,2300, unit=UNIT)
         # set_neutral()
         set_forward()
-        vel = increase_velocity(prev_vel,35)
-        # prev_vel = vel
-        # accelerate(int(vel))
+        # vel = increase_velocity(prev_vel,35)
+        vel = increase_velocity(initial_vel,acc_value)
+
         print("steering feedback: ",feedback_angle)
         print("mpc angle: ",steer_output)
+
         if abs(steer_output)<30:
            upvel = vel
         else:
@@ -188,8 +162,8 @@ if __name__ == '__main__':
                 upvel = 28
             else:
                 upvel = vel
-        
-    #   steer_input = pid.update(desired_angle, feedback_angle)
+
+        # accelerate(int(upvel))
         print(f"Steer Output: {steer_output}")
         print("sssssssss: ",end_point)
         print("ccccccccc: ",coll)
@@ -198,15 +172,18 @@ if __name__ == '__main__':
             if(brake_counter<1):
                 apply_brake()
                 brake_counter=brake_counter+1
-            # time.sleep(2.0)
             upvel = 0
-            # set_neutral()
-            # apply_brake()
+
         elif (coll==1):
-            if vel>25:
-                upvel = 26
-            else:
-                upvel = vel
+            vel = vel-1
+            set_steer(int(steer_output/2.8))
+            accelerate(int(vel))
+            rate.sleep()
+            continue
+            # if vel>25:
+            #     upvel = 26
+            # else:
+            #     upvel = vel
             # accelerate(int(upvel))
             
         else:
@@ -215,11 +192,11 @@ if __name__ == '__main__':
             remove_brake()
             # set_forward()
         accelerate(int(upvel))
-        prev_vel = upvel
-        if (end_point==True):
+        # prev_vel = upvel
+        if (end_point):
             accelerate(int(0))
             # set_neutral()
-        print(brake_counter)
+        # print(brake_counter)
 
         set_steer(int(steer_output/2.8))
         rate.sleep()

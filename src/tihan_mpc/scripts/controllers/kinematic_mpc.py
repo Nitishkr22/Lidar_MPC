@@ -13,7 +13,7 @@ class KinMPCPathFollower(Controller):
 				 L_F        = 1.213 , # distance from CoG to front axle (m)   #2.1
 		         L_R        = 1.167, # distance from CoG to rear axle (m)     #0.37
 		         V_MIN      = 0.0,    # min/max velocity constraint (m/s)
-		         V_MAX      = 20.0,     
+		         V_MAX      = 20.0,  #(m/s)   
 		         A_MIN      = -3.0,   # min/max acceleration constraint (m/s^2) ##-3.0
 		         A_MAX      =  2.0,     ## 2.0
 		         DF_MIN     = -0.65,   # min/max front steer angle constraint (rad)

@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/tihan/Documents/Lidar_MPC/src
+CMAKE_SOURCE_DIR = /home/navtech/Documents/Lidar_MPC/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/tihan/Documents/Lidar_MPC/build
+CMAKE_BINARY_DIR = /home/navtech/Documents/Lidar_MPC/build
 
 # Utility rule file for tihan_mpc_geneus.
 
@@ -63,10 +63,10 @@ tihan_mpc/CMakeFiles/tihan_mpc_geneus.dir/build: tihan_mpc_geneus
 .PHONY : tihan_mpc/CMakeFiles/tihan_mpc_geneus.dir/build
 
 tihan_mpc/CMakeFiles/tihan_mpc_geneus.dir/clean:
-	cd /home/tihan/Documents/Lidar_MPC/build/tihan_mpc && $(CMAKE_COMMAND) -P CMakeFiles/tihan_mpc_geneus.dir/cmake_clean.cmake
+	cd /home/navtech/Documents/Lidar_MPC/build/tihan_mpc && $(CMAKE_COMMAND) -P CMakeFiles/tihan_mpc_geneus.dir/cmake_clean.cmake
 .PHONY : tihan_mpc/CMakeFiles/tihan_mpc_geneus.dir/clean
 
 tihan_mpc/CMakeFiles/tihan_mpc_geneus.dir/depend:
-	cd /home/tihan/Documents/Lidar_MPC/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/tihan/Documents/Lidar_MPC/src /home/tihan/Documents/Lidar_MPC/src/tihan_mpc /home/tihan/Documents/Lidar_MPC/build /home/tihan/Documents/Lidar_MPC/build/tihan_mpc /home/tihan/Documents/Lidar_MPC/build/tihan_mpc/CMakeFiles/tihan_mpc_geneus.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/navtech/Documents/Lidar_MPC/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/navtech/Documents/Lidar_MPC/src /home/navtech/Documents/Lidar_MPC/src/tihan_mpc /home/navtech/Documents/Lidar_MPC/build /home/navtech/Documents/Lidar_MPC/build/tihan_mpc /home/navtech/Documents/Lidar_MPC/build/tihan_mpc/CMakeFiles/tihan_mpc_geneus.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : tihan_mpc/CMakeFiles/tihan_mpc_geneus.dir/depend
 

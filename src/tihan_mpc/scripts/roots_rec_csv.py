@@ -77,7 +77,7 @@ def _parse_imu_data(msg):
 def _parse_steering_angle(msg):
     global df,first_valid_data_received
     # df = m.radians(msg.data) / 15.87
-    df = m.radians(msg.data) / 10.57
+    df = m.radians(msg.data) / 10.57    #### 10.57 is steering to wheel ratio
     first_valid_data_received = True
     # tm_df = time.time()
 
