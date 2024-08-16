@@ -167,7 +167,7 @@ if __name__ == '__main__':
         Write = client.write_registers(22,2300, unit=UNIT)
         # set_neutral()
         set_forward()
-        vel = increase_velocity(prev_vel,40)
+        vel = increase_velocity(prev_vel,19)
         upvel = vel
         # prev_vel = vel
         # accelerate(int(vel))

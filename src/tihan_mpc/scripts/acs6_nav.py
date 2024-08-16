@@ -65,10 +65,10 @@ def remove_brake():
     R_pwm = client.write_coil(4, True, unit=UNIT) 
     L_PWM = client.write_coil(3, False, unit=UNIT)
 
-def apply_brake():
+def apply_brake(seed):
     R_pwm = client.write_coil(3, True, unit=UNIT) 
     L_PWM = client.write_coil(4, False, unit=UNIT)
-    time.sleep(0.7)
+    time.sleep(seed)
     R_pwm = client.write_coil(3, False, unit=UNIT) 
     L_PWM = client.write_coil(4, False, unit=UNIT)
 
@@ -122,7 +122,8 @@ def find_closest_key(dictionary, target_value):
     # Find the key that corresponds to the closest value in the dictionary
     closest_key = min(dictionary, key=lambda k: abs(dictionary[k] - target_value))
     return closest_key
-
+# while(1):
+#     remove_brake()
 if __name__ == '__main__':
     # dict_speed dictionary contains key:value pair of accn(voltage_values):velocity(kmph) for the DBW system
     dict_speed = {10:0,11:0,12:1,13:1,14:2,15:2,16:3,17:3,18:4,19:4,20:5,21:5,22:6,
@@ -139,6 +140,7 @@ if __name__ == '__main__':
     desired_angle = 0
     prev_vel = 0
     brake_counter = 0
+    # vel = 0
     while not rospy.is_shutdown():
         print(feedback_speed)
         target_vel = 15 #kmph
@@ -150,8 +152,11 @@ if __name__ == '__main__':
         # set_neutral()
         set_forward()
         # vel = increase_velocity(prev_vel,35)
-        vel = increase_velocity(initial_vel,acc_value)
-
+        # vel = increase_velocity(initial_vel,acc_value)
+        vel = increase_velocity(prev_vel,acc_value)
+        # if(vel==prev_vel):
+        #     prev_vel +=1
+        # prev_vel = vel
         print("steering feedback: ",feedback_angle)
         print("mpc angle: ",steer_output)
 
@@ -159,7 +164,7 @@ if __name__ == '__main__':
            upvel = vel
         else:
             if vel>27:
-                upvel = 28
+                upvel = 29
             else:
                 upvel = vel
 
@@ -170,14 +175,23 @@ if __name__ == '__main__':
         if (coll==2):
             accelerate(int(0))
             if(brake_counter<1):
-                apply_brake()
+                apply_brake(0.8)  # 0.8 to apply full brake
                 brake_counter=brake_counter+1
             upvel = 0
 
         elif (coll==1):
+            
+            if(brake_counter<1):
+                vel = 21
+                apply_brake(0.5)
+                brake_counter=brake_counter+1
+            # apply_brake(0.2)
             vel = vel-1
             set_steer(int(steer_output/2.8))
-            accelerate(int(vel))
+            upvel = vel
+            upvel = max(0,upvel)
+            accelerate(int(upvel))
+            prev_vel = upvel
             rate.sleep()
             continue
             # if vel>25:
@@ -191,8 +205,9 @@ if __name__ == '__main__':
             # set_forward()
             remove_brake()
             # set_forward()
+        brake_counter = 0
         accelerate(int(upvel))
-        # prev_vel = upvel
+        prev_vel = upvel
         if (end_point):
             accelerate(int(0))
             # set_neutral()

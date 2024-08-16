@@ -29,7 +29,7 @@ first_valid_data_received = False
 first_row_written = False
 
 # Initialize CSV file
-csv_file = "../paths/zedtest.csv"
+csv_file = "../paths/acs64.csv"
 headers = ["a", "psi", "df", "lon", "lat", "mode", "v", "y", "x", "t"]
 
 with open(csv_file, mode='w', newline='') as file:

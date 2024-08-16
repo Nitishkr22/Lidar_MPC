@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/navtech/Documents/Lidar_MPC/src
+CMAKE_SOURCE_DIR = /home/tihan/Documents/Lidar_MPC/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/navtech/Documents/Lidar_MPC/build
+CMAKE_BINARY_DIR = /home/tihan/Documents/Lidar_MPC/build
 
 # Utility rule file for tests.
 
@@ -67,6 +67,6 @@ CMakeFiles/tests.dir/clean:
 .PHONY : CMakeFiles/tests.dir/clean
 
 CMakeFiles/tests.dir/depend:
-	cd /home/navtech/Documents/Lidar_MPC/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/navtech/Documents/Lidar_MPC/src /home/navtech/Documents/Lidar_MPC/src /home/navtech/Documents/Lidar_MPC/build /home/navtech/Documents/Lidar_MPC/build /home/navtech/Documents/Lidar_MPC/build/CMakeFiles/tests.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/tihan/Documents/Lidar_MPC/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/tihan/Documents/Lidar_MPC/src /home/tihan/Documents/Lidar_MPC/src /home/tihan/Documents/Lidar_MPC/build /home/tihan/Documents/Lidar_MPC/build /home/tihan/Documents/Lidar_MPC/build/CMakeFiles/tests.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/tests.dir/depend
 

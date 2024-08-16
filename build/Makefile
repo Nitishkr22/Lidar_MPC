@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/navtech/Documents/Lidar_MPC/src
+CMAKE_SOURCE_DIR = /home/tihan/Documents/Lidar_MPC/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/navtech/Documents/Lidar_MPC/build
+CMAKE_BINARY_DIR = /home/tihan/Documents/Lidar_MPC/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -137,9 +137,9 @@ test/fast: test
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/navtech/Documents/Lidar_MPC/build/CMakeFiles /home/navtech/Documents/Lidar_MPC/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/tihan/Documents/Lidar_MPC/build/CMakeFiles /home/tihan/Documents/Lidar_MPC/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/navtech/Documents/Lidar_MPC/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/tihan/Documents/Lidar_MPC/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
