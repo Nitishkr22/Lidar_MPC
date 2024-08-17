@@ -128,7 +128,7 @@ def _parse_gps_vel(msg):
     feedback_speed = m.sqrt(x_vel**2 + y_vel**2) * 3.6
     data_received = True
 
-min_distance = 45
+min_distance = 100
 last_received_time = None
 timeout = 0.2  # Time in seconds to wait before resetting min_distance
 def obj_distance(msg):
@@ -166,13 +166,13 @@ if __name__ == '__main__':
     stop_dist = 7.0
     # vel = 0
 
-    create_csv_file('vehicle_data.csv')
+    create_csv_file('vehicle_data_18.csv')
 
     while not rospy.is_shutdown():
         if last_received_time and (time.time() - last_received_time > timeout):
-            min_distance = 45
+            min_distance = 100
         print(feedback_speed)
-        target_vel = 17 #kmph
+        target_vel = 18#kmph
         acc_value = find_closest_key(dict_speed, target_vel)
         initial_vel = find_closest_key(dict_speed, int(feedback_speed))
         feedback_angle = read_angle()
@@ -237,7 +237,7 @@ if __name__ == '__main__':
         # brake_counter = 0
         print(",mmmmmmm: ",min_distance)
         
-        acc_coll = max(0,40*(1 - np.exp(-(k/Vmax)*(min_distance - stop_dist))))
+        acc_coll = max(0,41*(1 - np.exp(-(k/Vmax)*(min_distance - stop_dist))))
         if(min_distance<stop_dist):
             if(brake_counter<1):
                 apply_brake(0.8)  # 0.8 to apply full brake
@@ -256,7 +256,7 @@ if __name__ == '__main__':
 
         set_steer(int(steer_output/2.8))
         if data_received:
-            append_to_csv('vehicle_data.csv', min_distance, feedback_speed)
+            append_to_csv('vehicle_data_18.csv', min_distance, feedback_speed)
         
         rate.sleep()
 

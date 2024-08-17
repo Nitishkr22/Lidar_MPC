@@ -5,7 +5,7 @@
 
 	<!-- Pick between CPG + RFS coordinate systems here. -->
 	<!-- <rosparam command="load" file="$(find tihan_mpc)/launch/rfs.yaml" ns="vehicle"/> -->
-	<rosparam command="load" file="$(find tihan_mpc)/launch/acs64.yaml" ns="vehicle"/>
+	<rosparam command="load" file="$(find tihan_mpc)/launch/acs6_new.yaml" ns="vehicle"/>
 
   <param name="vehicle/scripts_dir" type="str" value="$(find tihan_mpc)/scripts/" />
 
@@ -13,10 +13,10 @@
   <!-- Set track_using_time to True to allow for time-varying velocity. -->
   <!-- Set track_using_time to False to use target_vel (m/s) instead. -->
   <param name="vehicle/track_using_time" type="bool" value="False" />
-  <param name="vehicle/target_vel" type="double" value="5" />
+  <param name="vehicle/target_vel" type="double" value="6" />
 
   <!-- Waypoints CSV to specify path. -->
-  <param name="vehicle/mat_waypoints" type="str" value="$(find tihan_mpc)/paths/acs64.mat" />  
+  <param name="vehicle/mat_waypoints" type="str" value="$(find tihan_mpc)/paths/acs6_new.mat" />  
 
   <!-- 
     Enable time check for state_publisher to avoid publishing out-of-date states.
