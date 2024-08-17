@@ -150,15 +150,15 @@ if __name__ == '__main__':
     desired_angle = 0
     prev_vel = 0
     brake_counter = 0
-    k = 4.6
-    Vmax = 42.0
-    stop_dist = 8.0
+    k = 2.0
+    Vmax = 40.0
+    stop_dist = 7.0
     # vel = 0
     while not rospy.is_shutdown():
         if last_received_time and (time.time() - last_received_time > timeout):
             min_distance = 45
         print(feedback_speed)
-        target_vel = 15 #kmph
+        target_vel = 17 #kmph
         acc_value = find_closest_key(dict_speed, target_vel)
         initial_vel = find_closest_key(dict_speed, int(feedback_speed))
         feedback_angle = read_angle()
@@ -221,7 +221,17 @@ if __name__ == '__main__':
         #     remove_brake()
         #     # set_forward()
         # brake_counter = 0
-        acc_coll = 40*(1 - np.exp(-(k/Vmax)(min_distance - stop_dist)))
+        print(",mmmmmmm: ",min_distance)
+        
+        acc_coll = max(0,40*(1 - np.exp(-(k/Vmax)*(min_distance - stop_dist))))
+        if(min_distance<stop_dist):
+            if(brake_counter<1):
+                apply_brake(0.8)  # 0.8 to apply full brake
+                brake_counter=brake_counter+1
+        else:
+            brake_counter = 0
+            remove_brake()
+        print("accccacacac: ",acc_coll)
         upvel = min(acc_coll,upvel)
         accelerate(int(upvel))
         prev_vel = upvel
