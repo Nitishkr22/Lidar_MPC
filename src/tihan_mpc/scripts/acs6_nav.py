@@ -15,6 +15,7 @@ from std_msgs.msg import Float32 as Float32Msg
 from tihan_mpc.msg import mpc_path
 import math as m
 from geometry_msgs.msg import Quaternion, Vector3
+import csv
 # import pid
 
 host = '192.168.140.5'  
@@ -26,6 +27,7 @@ UNIT= 0x1
 #client.set_slave(UNIT)
 end_point = False
 coll = 0
+data_received = False
 
 print("connected")
 # brake_counter=0
@@ -86,45 +88,54 @@ def increase_velocity(previous_velocity, velocity):
     else:
        return velocity
     
-# def decrease_velocity(previous_velocity, velocity):
-#     #time.sleep(0.25)
-#     if velocity > previous_velocity:
-#        new_velocity=previous_velocity+0.2
-#        return min(41,new_velocity)
-#     else:
-#        return velocity
+def create_csv_file(filename='vehicle_data.csv'):
+    """Creates a CSV file and writes the header row."""
+    with open(filename, 'w', newline='') as csvfile:
+        csvwriter = csv.writer(csvfile)
+        csvwriter.writerow(['Timestamp', 'Min Distance', 'Feedback Speed'])
+    print(f"CSV file '{filename}' created and initialized.")
 
+def append_to_csv(filename, min_distance, feedback_speed):
+    """Appends a new row of data to the CSV file."""
+    with open(filename, 'a', newline='') as csvfile:
+        csvwriter = csv.writer(csvfile)
+        csvwriter.writerow([time.time(), min_distance, feedback_speed])
 
 steermpc = 0.0
 def steering_mpc(msg):
-    global steermpc
+    global steermpc, data_received
     steermpc = msg.data
+    data_received = True
 
 def update_mpc_trajectory(msg):
-    global end_point
+    global end_point,data_received
 
     end_point = msg.wp_end
+    data_received = True
 
 def zed_collision(msg):
-    global coll
+    global coll,data_received
     coll = msg.data
+    data_received = True
 
 feedback_speed = 0
 def _parse_gps_vel(msg):
-    global feedback_speed
+    global feedback_speed,data_received
 
     x_vel = msg.x
     y_vel = msg.y
     
     feedback_speed = m.sqrt(x_vel**2 + y_vel**2) * 3.6
+    data_received = True
 
 min_distance = 45
 last_received_time = None
 timeout = 0.2  # Time in seconds to wait before resetting min_distance
 def obj_distance(msg):
-    global min_distance, last_received_time
+    global min_distance, last_received_time,data_received
     min_distance = msg.data
     last_received_time = time.time()
+    data_received = True
 
 def find_closest_key(dictionary, target_value):
     # Find the key that corresponds to the closest value in the dictionary
@@ -154,6 +165,9 @@ if __name__ == '__main__':
     Vmax = 40.0
     stop_dist = 7.0
     # vel = 0
+
+    create_csv_file('vehicle_data.csv')
+
     while not rospy.is_shutdown():
         if last_received_time and (time.time() - last_received_time > timeout):
             min_distance = 45
@@ -241,6 +255,9 @@ if __name__ == '__main__':
         # print(brake_counter)
 
         set_steer(int(steer_output/2.8))
+        if data_received:
+            append_to_csv('vehicle_data.csv', min_distance, feedback_speed)
+        
         rate.sleep()
 
         
