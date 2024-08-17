@@ -118,6 +118,14 @@ def _parse_gps_vel(msg):
     
     feedback_speed = m.sqrt(x_vel**2 + y_vel**2) * 3.6
 
+min_distance = 45
+last_received_time = None
+timeout = 0.2  # Time in seconds to wait before resetting min_distance
+def obj_distance(msg):
+    global min_distance, last_received_time
+    min_distance = msg.data
+    last_received_time = time.time()
+
 def find_closest_key(dictionary, target_value):
     # Find the key that corresponds to the closest value in the dictionary
     closest_key = min(dictionary, key=lambda k: abs(dictionary[k] - target_value))
@@ -127,21 +135,28 @@ def find_closest_key(dictionary, target_value):
 if __name__ == '__main__':
     # dict_speed dictionary contains key:value pair of accn(voltage_values):velocity(kmph) for the DBW system
     dict_speed = {10:0,11:0,12:1,13:1,14:2,15:2,16:3,17:3,18:4,19:4,20:5,21:5,22:6,
-            23:6,24:7,25:7,26:8,27:8,28:9,29:10,30:11,31:12,32:12,33:13,34:14,35:15,36:16,37:17,38:18,39:19,40:20,41:20,42:21,43:22,44:23,45:24}
+            23:6,24:7,25:7,26:8,27:8,28:9,29:10,30:11,31:12,32:12,33:13,34:14,35:15,
+            36:16,37:17,38:18,39:19,40:20,41:20,42:21,43:22,44:23,45:24}
     rospy.init_node('angle_reader')
     angle_pub = rospy.Publisher('current_steer', Int32, queue_size=10)
     rospy.Subscriber("/control/steer_angle", Float32Msg, steering_mpc, queue_size=1)
     rospy.Subscriber('/vehicle/mpc_path', mpc_path, update_mpc_trajectory, queue_size=1)
     rospy.Subscriber('/collision', Float32Msg, zed_collision, queue_size=1)
     rospy.Subscriber('/calculated_velocity', Vector3,_parse_gps_vel, queue_size=10)
+    rospy.Subscriber('/zed_distance',Float32Msg,obj_distance,queue_size=10)
 
     rate = rospy.Rate(10)
     keys_with_value = find_closest_key(dict_speed, 24)
     desired_angle = 0
     prev_vel = 0
     brake_counter = 0
+    k = 4.6
+    Vmax = 42.0
+    stop_dist = 8.0
     # vel = 0
     while not rospy.is_shutdown():
+        if last_received_time and (time.time() - last_received_time > timeout):
+            min_distance = 45
         print(feedback_speed)
         target_vel = 15 #kmph
         acc_value = find_closest_key(dict_speed, target_vel)
@@ -172,40 +187,42 @@ if __name__ == '__main__':
         print(f"Steer Output: {steer_output}")
         print("sssssssss: ",end_point)
         print("ccccccccc: ",coll)
-        if (coll==2):
-            accelerate(int(0))
-            if(brake_counter<1):
-                apply_brake(0.8)  # 0.8 to apply full brake
-                brake_counter=brake_counter+1
-            upvel = 0
+        # if (coll==2):
+        #     accelerate(int(0))
+        #     if(brake_counter<1):
+        #         apply_brake(0.8)  # 0.8 to apply full brake
+        #         brake_counter=brake_counter+1
+        #     upvel = 0
 
-        elif (coll==1):
+        # elif (coll==1):
             
-            if(brake_counter<1):
-                vel = 21
-                apply_brake(0.5)
-                brake_counter=brake_counter+1
-            # apply_brake(0.2)
-            vel = vel-1
-            set_steer(int(steer_output/2.8))
-            upvel = vel
-            upvel = max(0,upvel)
-            accelerate(int(upvel))
-            prev_vel = upvel
-            rate.sleep()
-            continue
-            # if vel>25:
-            #     upvel = 26
-            # else:
-            #     upvel = vel
-            # accelerate(int(upvel))
+        #     if(brake_counter<1):
+        #         vel = 21
+        #         apply_brake(0.5)
+        #         brake_counter=brake_counter+1
+        #     # apply_brake(0.2)
+        #     vel = vel-1
+        #     set_steer(int(steer_output/2.8))
+        #     upvel = vel
+        #     upvel = max(0,upvel)
+        #     accelerate(int(upvel))
+        #     prev_vel = upvel
+        #     rate.sleep()
+        #     continue
+        #     # if vel>25:
+        #     #     upvel = 26
+        #     # else:
+        #     #     upvel = vel
+        #     # accelerate(int(upvel))
             
-        else:
-            brake_counter = 0
-            # set_forward()
-            remove_brake()
-            # set_forward()
-        brake_counter = 0
+        # else:
+        #     brake_counter = 0
+        #     # set_forward()
+        #     remove_brake()
+        #     # set_forward()
+        # brake_counter = 0
+        acc_coll = 40*(1 - np.exp(-(k/Vmax)(min_distance - stop_dist)))
+        upvel = min(acc_coll,upvel)
         accelerate(int(upvel))
         prev_vel = upvel
         if (end_point):

@@ -1,16 +1,6 @@
 import math as m
 
 def latlon_to_XY(lat0, lon0, lat1, lon1):
-	''' 
-	Convert latitude and longitude to global X, Y coordinates,
-	using an equirectangular projection.
-
-	X = meters east of lon0
-	Y = meters north of lat0
-
-	Sources: http://www.movable-type.co.uk/scripts/latlong.html
-		     https://github.com/MPC-Car/StochasticLC/blob/master/controller.py
-	'''
 	R_earth = 6371000 # meters
 	delta_lat = m.radians(lat1 - lat0)
 	delta_lon = m.radians(lon1 - lon0)
