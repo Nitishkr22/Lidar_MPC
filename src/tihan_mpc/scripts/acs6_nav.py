@@ -145,7 +145,8 @@ def find_closest_key(dictionary, target_value):
 #     remove_brake()
 if __name__ == '__main__':
     # dict_speed dictionary contains key:value pair of accn(voltage_values):velocity(kmph) for the DBW system
-    dict_speed = {10:0,11:0,12:1,13:1,14:2,15:2,16:3,17:3,18:4,19:4,20:5,21:5,22:6,
+    dict_speed = {0:0,1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0,
+            10:0,11:0,12:1,13:1,14:2,15:2,16:3,17:3,18:4,19:4,20:5,21:5,22:6,
             23:6,24:7,25:7,26:8,27:8,28:9,29:10,30:11,31:12,32:12,33:13,34:14,35:15,
             36:16,37:17,38:18,39:19,40:20,41:20,42:21,43:22,44:23,45:24}
     rospy.init_node('angle_reader')
@@ -163,16 +164,17 @@ if __name__ == '__main__':
     brake_counter = 0
     k = 2.0
     Vmax = 40.0
-    stop_dist = 7.0
+    stop_dist = 5.0
     # vel = 0
+    i = 0
 
-    create_csv_file('vehicle_data_18.csv')
+    create_csv_file('vehicle_data_16.csv')
 
     while not rospy.is_shutdown():
         if last_received_time and (time.time() - last_received_time > timeout):
             min_distance = 100
         print(feedback_speed)
-        target_vel = 18#kmph
+        target_vel = 16#kmph
         acc_value = find_closest_key(dict_speed, target_vel)
         initial_vel = find_closest_key(dict_speed, int(feedback_speed))
         feedback_angle = read_angle()
@@ -238,6 +240,19 @@ if __name__ == '__main__':
         print(",mmmmmmm: ",min_distance)
         
         acc_coll = max(0,41*(1 - np.exp(-(k/Vmax)*(min_distance - stop_dist))))
+        upvel = min(acc_coll,upvel)
+        diff = int(feedback_speed)-dict_speed[int(upvel)]
+        if diff>2:
+            i = i+0.0045
+            i = min(0.8,i)
+            # if(brake_counter<1):
+            apply_brake(i)  # 0.8 to apply full brake
+                # brake_counter=brake_counter+1
+        else:
+            # brake_counter = 0
+            i = 0
+            remove_brake()
+        
         if(min_distance<stop_dist):
             if(brake_counter<1):
                 apply_brake(0.8)  # 0.8 to apply full brake
@@ -246,7 +261,7 @@ if __name__ == '__main__':
             brake_counter = 0
             remove_brake()
         print("accccacacac: ",acc_coll)
-        upvel = min(acc_coll,upvel)
+        # upvel = min(acc_coll,upvel)
         accelerate(int(upvel))
         prev_vel = upvel
         if (end_point):
@@ -256,7 +271,7 @@ if __name__ == '__main__':
 
         set_steer(int(steer_output/2.8))
         if data_received:
-            append_to_csv('vehicle_data_18.csv', min_distance, feedback_speed)
+            append_to_csv('vehicle_data_16.csv', min_distance, feedback_speed)
         
         rate.sleep()
 
